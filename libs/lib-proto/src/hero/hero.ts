@@ -114,15 +114,15 @@ export const Hero = {
   },
 };
 
-export interface HeroesService {
+export interface HeroService {
   FindOne(request: HeroById): Promise<Hero>;
 }
 
-export class HeroesServiceClientImpl implements HeroesService {
+export class HeroServiceClientImpl implements HeroService {
   private readonly rpc: Rpc;
   private readonly service: string;
   constructor(rpc: Rpc, opts?: { service?: string }) {
-    this.service = opts?.service || "hero.HeroesService";
+    this.service = opts?.service || "hero.HeroService";
     this.rpc = rpc;
     this.FindOne = this.FindOne.bind(this);
   }

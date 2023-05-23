@@ -1,19 +1,27 @@
 import { Module } from '@nestjs/common';
 import { HeroController } from './controllers/hero.controller';
-import { ClientsModule } from '@nestjs/microservices';
-import { heroServiceConfigurations } from './configurations/service.configuration';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { heroConfiguration } from '@lib-proto'
 
 
 @Module({
-  imports: [
-    ClientsModule.register([
-        {
-          name: 'HERO_PACKAGE',
-          ...heroServiceConfigurations,
-        },
-      ]),
-  ],
+  imports: [ ],
   controllers: [HeroController],
-  providers: [],
+  providers: [
+    {
+      provide: 'HERO_PACKAGE',
+      useFactory: () => {
+        return ClientProxyFactory.create({
+          transport: Transport.GRPC,
+          options: {
+            url: heroConfiguration.url,
+            package: heroConfiguration.packageName,
+            protoPath: heroConfiguration.protoPath,
+          },
+        })
+      },
+      inject: [],
+    }
+  ],
 })
 export class HeroModule {}

@@ -4,9 +4,9 @@ import { heroConfiguration } from '@lib-proto'
 export const heroServiceConfigurations: ClientOptions = {
     transport: Transport.GRPC,
     options: {
-      package: heroConfiguration.packageName,
-      protoPath: heroConfiguration.protoPath,
+        url: heroConfiguration.url,
+        package: heroConfiguration.packageName,
+        protoPath: heroConfiguration.protoPath,
     },
 }
 
-  

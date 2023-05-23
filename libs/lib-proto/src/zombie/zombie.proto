@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package zombie;
 
-service ZombiesService {
+service ZombieService {
   rpc FindOne (ZombieById) returns (Zombie) {}
 }
 
