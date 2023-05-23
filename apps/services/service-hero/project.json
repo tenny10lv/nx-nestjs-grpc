@@ -1,0 +1,79 @@
+{
+    "name": "services-service-hero",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/services/service-hero/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nx/webpack:webpack",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "defaultConfiguration": "production",
+            "options": {
+                "target": "node",
+                "compiler": "tsc",
+                "outputPath": "dist/apps/services/service-hero",
+                "main": "apps/services/service-hero/src/main.ts",
+                "tsConfig": "apps/services/service-hero/tsconfig.app.json",
+                "assets": [
+                    "apps/services/service-hero/src/assets",
+                    {
+                        "glob": "**/*.proto",
+                        "input": "libs/lib-proto/src/hero",
+                        "output": "./assets"
+                    }
+                ],
+                "isolatedConfig": true,
+                "webpackConfig": "apps/services/service-hero/webpack.config.js"
+            },
+            "configurations": {
+                "development": {},
+                "production": {}
+            }
+        },
+        "serve": {
+            "executor": "@nx/js:node",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "services-service-hero:build"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "services-service-hero:build:development"
+                },
+                "production": {
+                    "buildTarget": "services-service-hero:build:production"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/linter:eslint",
+            "outputs": [
+                "{options.outputFile}"
+            ],
+            "options": {
+                "lintFilePatterns": [
+                    "apps/services/service-hero/**/*.ts"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": [
+                "{workspaceRoot}/coverage/{projectRoot}"
+            ],
+            "options": {
+                "jestConfig": "apps/services/service-hero/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
+        }
+    },
+    "tags": []
+}

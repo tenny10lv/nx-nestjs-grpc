@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package zombie;
+
+service ZombiesService {
+  rpc FindOne (ZombieById) returns (Zombie) {}
+}
+
+message ZombieById {
+  int32 id = 1;
+}
+
+message Zombie {
+  int32 id = 1;
+  string name = 2;
+}

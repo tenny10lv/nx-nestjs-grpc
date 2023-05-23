@@ -1,0 +1,64 @@
+{
+  "name": "services-service-zombie",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/services/service-zombie/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/services/service-zombie",
+        "main": "apps/services/service-zombie/src/main.ts",
+        "tsConfig": "apps/services/service-zombie/tsconfig.app.json",
+        "assets": ["apps/services/service-zombie/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/services/service-zombie/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "services-service-zombie:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "services-service-zombie:build:development"
+        },
+        "production": {
+          "buildTarget": "services-service-zombie:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/services/service-zombie/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/services/service-zombie/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

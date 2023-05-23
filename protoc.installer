@@ -1,0 +1,6 @@
+link : https://github.com/namely/docker-protoc
+
+docker pull namely/protoc-all
+
+$ cd ~/my_project/protobufs
+$ docker run -v $PWD:/defs namely/protoc-all -f myproto.proto -l ruby #or go, csharp, etc

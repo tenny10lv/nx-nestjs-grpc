@@ -1,0 +1,84 @@
+{
+    "name": "gateways-app-1",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/gateways/app-1/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nx/webpack:webpack",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "defaultConfiguration": "production",
+            "options": {
+                "target": "node",
+                "compiler": "tsc",
+                "outputPath": "dist/apps/gateways/app-1",
+                "main": "apps/gateways/app-1/src/main.ts",
+                "tsConfig": "apps/gateways/app-1/tsconfig.app.json",
+                "assets": [
+                    "apps/gateways/app-1/src/assets",
+                    {
+                        "glob": "**/*.proto",
+                        "input": "libs/lib-proto/src/hero",
+                        "output": "./assets"
+                    },
+                    {
+                        "glob": "**/*.proto",
+                        "input": "libs/lib-proto/src/zombie",
+                        "output": "./assets"
+                    }
+                ],
+                "isolatedConfig": true,
+                "webpackConfig": "apps/gateways/app-1/webpack.config.js"
+            },
+            "configurations": {
+                "development": {},
+                "production": {}
+            }
+        },
+        "serve": {
+            "executor": "@nx/js:node",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "gateways-app-1:build"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "gateways-app-1:build:development"
+                },
+                "production": {
+                    "buildTarget": "gateways-app-1:build:production"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/linter:eslint",
+            "outputs": [
+                "{options.outputFile}"
+            ],
+            "options": {
+                "lintFilePatterns": [
+                    "apps/gateways/app-1/**/*.ts"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": [
+                "{workspaceRoot}/coverage/{projectRoot}"
+            ],
+            "options": {
+                "jestConfig": "apps/gateways/app-1/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "codeCoverage": true
+                }
+            }
+        }
+    },
+    "tags": []
+}
