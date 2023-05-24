@@ -16,6 +16,6 @@ export function setupSwagger(app: INestApplication): void {
   });
 
   console.info(
-    `Documentation: http://localhost:${process.env.PORT}/documentation`,
+    `Documentation: http://localhost:${process.env.PORT || 3000}/documentation`,
   );
 }

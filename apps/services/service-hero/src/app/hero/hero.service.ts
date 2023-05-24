@@ -12,4 +12,5 @@ export class HeroService {
     findOne(data: HeroById): Hero {
         return this.appService.findOne(data);
     }
+    
 }
